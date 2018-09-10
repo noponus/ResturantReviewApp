@@ -159,6 +159,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
+
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.alt = "Image of " + restaurant.name;
@@ -168,8 +169,30 @@ createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+  const numOfReviews = restaurant.reviews.length;
+  let totalRatingVal = 0;
+  for(let i=0; i<numOfReviews; i++){
+    totalRatingVal+=restaurant.reviews[i].rating;
+  }
+
+  let finalRating = totalRatingVal/numOfReviews;
+  let actualRating = finalRating;
+
+  const rating = document.createElement('p');
+  let stars = '';
+  while(actualRating>0){
+    const star = ((actualRating>0)&&(actualRating<1))?'<i class="fa fa-star-half"></i>':'<i class="fas fa-star"></i>'; //far fa-star
+    stars+= star;
+    actualRating--;
+  }
+  rating.innerHTML = `${stars} (${finalRating.toFixed(1)}/5) - ${numOfReviews} Reviews`;
+  li.append(rating);
+
+
+
+
   const neighborhood = document.createElement('p');
-  neighborhood.innerHTML = restaurant.neighborhood;
+  neighborhood.innerHTML = `<i class="fas fa-map-marker-alt"></i>${restaurant.neighborhood}`;
   li.append(neighborhood);
 
   const address = document.createElement('p');
@@ -234,4 +257,3 @@ if('serviceWorker' in navigator){
 
   })
 }
-

@@ -83,7 +83,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+  address.innerHTML = `<i class="fas fa-map-marker-alt"></i>${restaurant.address}`;
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
@@ -156,13 +156,21 @@ createReviewHTML = (review) => {
   date.innerHTML = review.date;
   li.appendChild(date);
 
+
   const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  let stars='';
+  const ratingNum = review.rating;
+  for(let i=0; i<ratingNum; i++){
+    stars+='<i class="fas fa-star"></i>'
+  }
+  rating.innerHTML = `${stars} (${ratingNum}/5)`;
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
   li.appendChild(comments);
+  li.setAttribute('tabindex', '8');
+  li.setAttribute('aria-label', 'Customer Review');
 
   return li;
 }
